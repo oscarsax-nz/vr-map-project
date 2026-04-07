@@ -2,43 +2,13 @@
   <head>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
   </head>
-
   <body>
     <a-scene>
-
-      <!-- Camera -->
-      <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
-
-      <!-- Floor -->
-      <a-plane position="0 0 -5"
-               rotation="-90 0 0"
-               width="20"
-               height="20"
-               color="#7BC8A4">
-      </a-plane>
-
-      <!-- Walls (simple classroom box) -->
-      <a-plane position="0 3 -10" width="20" height="6" color="#ECECEC"></a-plane> <!-- front wall -->
-      <a-plane position="-10 3 -5" rotation="0 90 0" width="20" height="6" color="#ECECEC"></a-plane> <!-- left wall -->
-      <a-plane position="10 3 -5" rotation="0 -90 0" width="20" height="6" color="#ECECEC"></a-plane> <!-- right wall -->
-
-      <!-- Ceiling -->
-      <a-plane position="0 6 -5"
-               rotation="90 0 0"
-               width="20"
-               height="20"
-               color="#DDDDDD">
-      </a-plane>
-
-      <!-- TV on front wall -->
-      <a-box src="map.jpg"
-             position="0 3 -9.8"
-             depth="0.2"
-             height="3"
-             width="5"
-             color="#ffffff">
-      </a-box>
-
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
     </a-scene>
   </body>
 </html>
