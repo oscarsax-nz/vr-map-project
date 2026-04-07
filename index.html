@@ -9,12 +9,34 @@
       <!-- Camera -->
       <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
 
-      <!-- Floating TV with map -->
-      <a-box src="map.png"
-             position="0 2 -5"
+      <!-- Floor -->
+      <a-plane position="0 0 -5"
+               rotation="-90 0 0"
+               width="20"
+               height="20"
+               color="#7BC8A4">
+      </a-plane>
+
+      <!-- Walls (simple classroom box) -->
+      <a-plane position="0 3 -10" width="20" height="6" color="#ECECEC"></a-plane> <!-- front wall -->
+      <a-plane position="-10 3 -5" rotation="0 90 0" width="20" height="6" color="#ECECEC"></a-plane> <!-- left wall -->
+      <a-plane position="10 3 -5" rotation="0 -90 0" width="20" height="6" color="#ECECEC"></a-plane> <!-- right wall -->
+
+      <!-- Ceiling -->
+      <a-plane position="0 6 -5"
+               rotation="90 0 0"
+               width="20"
+               height="20"
+               color="#DDDDDD">
+      </a-plane>
+
+      <!-- TV on front wall -->
+      <a-box src="map.jpg"
+             position="0 3 -9.8"
              depth="0.2"
              height="3"
-             width="5">
+             width="5"
+             color="#ffffff">
       </a-box>
 
     </a-scene>
