@@ -90,32 +90,50 @@
 
       </a-entity>
 
+      <a-assets>
+  <video id="kaiteriteriVideo"
+         src="kaiteriteri.mp4"
+         autoplay
+         loop
+         muted
+         playsinline
+         crossorigin="anonymous">
+  </video>
+</a-assets>
+
       <!-- SKY (will change dynamically) -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
 
     </a-scene>
 
-   <script>
+  <script>
   const tv = document.querySelector('#tv-group');
   const sky = document.querySelector('#sky');
-
   const kaiteriteriVideo = document.querySelector('#kaiteriteriVideo');
 
+  // Nelson (image)
   document.querySelector('#btn-nelson').addEventListener('click', function () {
     tv.setAttribute('visible', 'false');
-    sky.setAttribute('src', 'nelson.jpg');
+
+    sky.setAttribute('material', 'src', 'nelson.jpg');
   });
 
+  // Kaiteriteri (VIDEO)
   document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
     tv.setAttribute('visible', 'false');
 
-    kaiteriteriVideo.play(); // important
+    // play video
+    kaiteriteriVideo.play();
+
+    // attach video to sky
     sky.setAttribute('material', 'src', '#kaiteriteriVideo');
   });
 
+  // Abel Tasman (image)
   document.querySelector('#btn-abeltasman').addEventListener('click', function () {
     tv.setAttribute('visible', 'false');
-    sky.setAttribute('src', 'abeltasman.jpg');
+
+    sky.setAttribute('material', 'src', 'abeltasman.jpg');
   });
 </script>
 
