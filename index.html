@@ -20,31 +20,32 @@
       <a-entity laser-controls="hand: left"
                 raycaster="objects: .clickable"></a-entity>
 
-      <!-- TV -->
-      <a-box id="tv"
-             src="map.png"
-             class="clickable"
-             position="0 2 -5"
-             depth="0.2"
-             height="3"
-             width="5">
-      </a-box>
+    <a-entity id="tv-group"
+          position="0 2 -5"
+          animation="property: position; 
+                     to: 0 2.3 -5; 
+                     dir: alternate; 
+                     dur: 2000; 
+                     loop: true;
+                     easing: easeInOutSine">
 
-      <!-- Sky (IMPORTANT so we can change it) -->
-      <a-sky color="#ECECEC"></a-sky>
+  <!-- Silver back -->
+  <a-cylinder radius="5.2"
+              height="0.2"
+              rotation="0 90 0"
+              color="#C0C0C0">
+  </a-cylinder>
 
-    </a-scene>
+  <!-- Screen (curved front) -->
+  <a-cylinder radius="5"
+              height="0.1"
+              rotation="0 90 0"
+              color="white"
+              material="src: map.png">
+  </a-cylinder>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const tv = document.querySelector('#tv');
-
-        tv.addEventListener('click', () => {
-          console.log('TV clicked!');
-          document.querySelector('a-sky').setAttribute('color', 'blue');
-        });
-      });
-    </script>
+</a-entity>
+      </a-scene>
 
   </body>
 </html>
