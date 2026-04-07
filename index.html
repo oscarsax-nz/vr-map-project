@@ -95,26 +95,29 @@
 
     </a-scene>
 
-    <!-- Logic -->
-    <script>
-      const tv = document.querySelector('#tv-group');
-      const sky = document.querySelector('#sky');
+   <script>
+  const tv = document.querySelector('#tv-group');
+  const sky = document.querySelector('#sky');
 
-      document.querySelector('#btn-nelson').addEventListener('click', function () {
-        tv.setAttribute('visible', 'false'); // hide TV
-        sky.setAttribute('src', 'nelson.jpg'); // 360 image
-      });
+  const kaiteriteriVideo = document.querySelector('#kaiteriteriVideo');
 
-      document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
-        tv.setAttribute('visible', 'false');
-        sky.setAttribute('src', 'kaiteriteri.jpg');
-      });
+  document.querySelector('#btn-nelson').addEventListener('click', function () {
+    tv.setAttribute('visible', 'false');
+    sky.setAttribute('src', 'nelson.jpg');
+  });
 
-      document.querySelector('#btn-abeltasman').addEventListener('click', function () {
-        tv.setAttribute('visible', 'false');
-        sky.setAttribute('src', 'abeltasman.jpg');
-      });
-    </script>
+  document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
+    tv.setAttribute('visible', 'false');
+
+    kaiteriteriVideo.play(); // important
+    sky.setAttribute('material', 'src', '#kaiteriteriVideo');
+  });
+
+  document.querySelector('#btn-abeltasman').addEventListener('click', function () {
+    tv.setAttribute('visible', 'false');
+    sky.setAttribute('src', 'abeltasman.jpg');
+  });
+</script>
 
   </body>
 </html>
