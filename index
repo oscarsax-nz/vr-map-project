@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+      <a-entity camera>
+        <a-cursor></a-cursor>
+      </a-entity>
+
+      <a-sky src="map.jpg"></a-sky>
+
+      <a-entity 
+        geometry="primitive: sphere; radius: 0.3"
+        material="color: red"
+        position="0 1.5 -3"
+        onclick="goToKaiteriteri()">
+      </a-entity>
+
+      <a-sky id="kaiteriteri" src="kaiteriteri360.jpg" visible="false"></a-sky>
+
+    </a-scene>
+
+    <script>
+      function goToKaiteriteri() {
+        document.querySelector('a-sky[src="map.jpg"]').setAttribute('visible', false);
+        document.querySelector('#kaiteriteri').setAttribute('visible', true);
+      }
+    </script>
+
+  </body>
+</html>
