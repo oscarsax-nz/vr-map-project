@@ -8,10 +8,11 @@
     <a-scene xr-mode-ui="enabled: true">
 
       <!-- Camera -->
-     <a-entity camera look-controls position="0 1.6 0">
-  <a-cursor raycaster="objects: .clickable"
-            material="opacity: 0"></a-cursor>
-</a-entity>
+      <a-entity camera look-controls position="0 1.6 0">
+        <a-cursor raycaster="objects: .clickable"
+                  material="opacity: 0">
+        </a-cursor>
+      </a-entity>
 
       <!-- Controllers -->
       <a-entity laser-controls="hand: right"
@@ -20,32 +21,94 @@
       <a-entity laser-controls="hand: left"
                 raycaster="objects: .clickable"></a-entity>
 
-    <a-entity id="tv-group"
-          position="0 2 -5"
-          animation="property: position; 
-                     to: 0 2.3 -5; 
-                     dir: alternate; 
-                     dur: 2000; 
-                     loop: true;
-                     easing: easeInOutSine">
+      <!-- Floating TV -->
+      <a-entity id="tv-group"
+                position="0 2 -5"
+                animation="property: position;
+                           to: 0 2.3 -5;
+                           dir: alternate;
+                           dur: 2000;
+                           loop: true;
+                           easing: easeInOutSine">
 
-  <!-- Silver back -->
-  <a-cylinder radius="5.2"
-              height="0.2"
-              rotation="0 90 0"
-              color="#C0C0C0">
-  </a-cylinder>
+        <!-- Silver back -->
+        <a-cylinder radius="5.2"
+                    height="0.2"
+                    rotation="0 90 0"
+                    color="#C0C0C0">
+        </a-cylinder>
 
-  <!-- Screen (curved front) -->
-  <a-cylinder radius="5"
-              height="0.1"
-              rotation="0 90 0"
-              color="white"
-              material="src: map.png">
-  </a-cylinder>
+        <!-- Screen -->
+        <a-cylinder radius="5"
+                    height="0.1"
+                    rotation="0 90 0"
+                    material="shader: flat; src: map.png">
+        </a-cylinder>
 
-</a-entity>
-      </a-scene>
+        <!-- Buttons (UI overlay) -->
+
+        <a-plane class="clickable"
+                 position="-1.5 0.5 0.1"
+                 width="1.2"
+                 height="0.5"
+                 color="red"
+                 onclick="option1()">
+          <a-text value="Nelson"
+                  align="center"
+                  color="white"
+                  position="0 0 0.01">
+          </a-text>
+        </a-plane>
+
+        <a-plane class="clickable"
+                 position="0 0.5 0.1"
+                 width="1.2"
+                 height="0.5"
+                 color="blue"
+                 onclick="option2()">
+          <a-text value="Kaiteriteri"
+                  align="center"
+                  color="white"
+                  position="0 0 0.01">
+          </a-text>
+        </a-plane>
+
+        <a-plane class="clickable"
+                 position="1.5 0.5 0.1"
+                 width="1.2"
+                 height="0.5"
+                 color="green"
+                 onclick="option3()">
+          <a-text value="Abel Tasman"
+                  align="center"
+                  color="white"
+                  position="0 0 0.01">
+          </a-text>
+        </a-plane>
+
+      </a-entity>
+
+      <a-sky color="#ECECEC"></a-sky>
+
+    </a-scene>
+
+    <!-- Interaction logic -->
+    <script>
+      function option1() {
+        console.log("Nelson selected");
+        document.querySelector('a-sky').setAttribute('color', '#88ccff');
+      }
+
+      function option2() {
+        console.log("Kaiteriteri selected");
+        document.querySelector('a-sky').setAttribute('color', '#ffcc88');
+      }
+
+      function option3() {
+        console.log("Abel Tasman selected");
+        document.querySelector('a-sky').setAttribute('color', '#88ffcc');
+      }
+    </script>
 
   </body>
 </html>
