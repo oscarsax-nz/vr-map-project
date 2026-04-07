@@ -7,8 +7,8 @@
 
     <a-scene xr-mode-ui="enabled: true">
 
-      <!-- Camera + movement -->
-      <a-entity id="rig" movement-controls>
+      <!-- Camera -->
+      <a-entity id="rig">
         <a-entity camera look-controls position="0 1.6 0"></a-entity>
       </a-entity>
 
@@ -19,16 +19,31 @@
       <a-entity laser-controls="hand: left"
                 raycaster="objects: .clickable"></a-entity>
 
-      <!-- Original objects -->
-<a-box id="tv"
-       src="map.png"
-       class="clickable"
-       position="0 2 -5"
-       depth="0.2"
-       height="3"
-       width="5">
-</a-box>
+      <!-- TV -->
+      <a-box id="tv"
+             src="map.png"
+             class="clickable"
+             position="0 2 -5"
+             depth="0.2"
+             height="3"
+             width="5">
+      </a-box>
+
+      <!-- Sky (IMPORTANT so we can change it) -->
+      <a-sky color="#ECECEC"></a-sky>
+
     </a-scene>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const tv = document.querySelector('#tv');
+
+        tv.addEventListener('click', () => {
+          console.log('TV clicked!');
+          document.querySelector('a-sky').setAttribute('color', 'blue');
+        });
+      });
+    </script>
 
   </body>
 </html>
