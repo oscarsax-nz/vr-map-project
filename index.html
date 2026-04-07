@@ -7,14 +7,15 @@
 
     <a-scene xr-mode-ui="enabled: true">
 
-      <!-- Camera -->
+      <!-- Camera + Cursor -->
       <a-entity camera look-controls position="0 1.6 0">
-        <a-cursor raycaster="objects: .clickable"
-                  material="opacity: 0">
+        <a-cursor 
+          raycaster="objects: .clickable; far: 10"
+          fuse="false">
         </a-cursor>
       </a-entity>
 
-      <!-- Controllers -->
+      <!-- VR Controllers -->
       <a-entity laser-controls="hand: right"
                 raycaster="objects: .clickable"></a-entity>
 
@@ -31,7 +32,7 @@
                            loop: true;
                            easing: easeInOutSine">
 
-        <!-- TV frame (silver body) -->
+        <!-- TV frame -->
         <a-box depth="0.3"
                height="3.5"
                width="6"
@@ -47,13 +48,12 @@
 
         <!-- Buttons -->
 
-        <!-- Nelson -->
-        <a-plane class="clickable"
+        <a-plane id="btn-nelson"
+                 class="clickable"
                  position="-1.5 -1 0.2"
                  width="1.2"
                  height="0.5"
-                 color="red"
-                 onclick="option1()">
+                 color="red">
           <a-text value="Nelson"
                   align="center"
                   color="white"
@@ -61,13 +61,12 @@
           </a-text>
         </a-plane>
 
-        <!-- Kaiteriteri -->
-        <a-plane class="clickable"
+        <a-plane id="btn-kaiteriteri"
+                 class="clickable"
                  position="0 -1 0.2"
                  width="1.2"
                  height="0.5"
-                 color="blue"
-                 onclick="option2()">
+                 color="blue">
           <a-text value="Kaiteriteri"
                   align="center"
                   color="white"
@@ -75,13 +74,12 @@
           </a-text>
         </a-plane>
 
-        <!-- Abel Tasman -->
-        <a-plane class="clickable"
+        <a-plane id="btn-abeltasman"
+                 class="clickable"
                  position="1.5 -1 0.2"
                  width="1.2"
                  height="0.5"
-                 color="green"
-                 onclick="option3()">
+                 color="green">
           <a-text value="Abel Tasman"
                   align="center"
                   color="white"
@@ -96,22 +94,22 @@
 
     </a-scene>
 
-    <!-- Interaction logic -->
+    <!-- Interaction Logic -->
     <script>
-      function option1() {
+      document.querySelector('#btn-nelson').addEventListener('click', function () {
         console.log("Nelson selected");
         document.querySelector('a-sky').setAttribute('color', '#88ccff');
-      }
+      });
 
-      function option2() {
+      document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
         console.log("Kaiteriteri selected");
         document.querySelector('a-sky').setAttribute('color', '#ffcc88');
-      }
+      });
 
-      function option3() {
+      document.querySelector('#btn-abeltasman').addEventListener('click', function () {
         console.log("Abel Tasman selected");
         document.querySelector('a-sky').setAttribute('color', '#88ffcc');
-      }
+      });
     </script>
 
   </body>
