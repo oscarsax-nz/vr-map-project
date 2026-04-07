@@ -7,7 +7,22 @@
 
     <a-scene xr-mode-ui="enabled: true">
 
-      <!-- Camera (cursor hidden) -->
+      <!-- ASSETS -->
+      <a-assets>
+        <img id="nelsonImg" src="nelson.jpg">
+        <img id="abeltasmanImg" src="abeltasman.jpg">
+
+        <video id="kaiteriteriVideo"
+               src="kaiteriteri.mp4"
+               autoplay
+               loop
+               muted
+               playsinline
+               crossorigin="anonymous">
+        </video>
+      </a-assets>
+
+      <!-- CAMERA -->
       <a-entity camera look-controls position="0 1.6 0">
         <a-cursor 
           raycaster="objects: .clickable; far: 10"
@@ -16,12 +31,15 @@
         </a-cursor>
       </a-entity>
 
-      <!-- Controllers -->
+      <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right"
                 raycaster="objects: .clickable"></a-entity>
 
       <a-entity laser-controls="hand: left"
                 raycaster="objects: .clickable"></a-entity>
+
+      <!-- SKY -->
+      <a-sky id="sky" color="#ECECEC"></a-sky>
 
       <!-- TV GROUP -->
       <a-entity id="tv-group"
@@ -33,18 +51,14 @@
                            loop: true;
                            easing: easeInOutSine">
 
-        <!-- TV frame -->
-        <a-box depth="0.3"
-               height="3.5"
-               width="6"
-               color="#C0C0C0">
-        </a-box>
+        <!-- Frame -->
+        <a-box depth="0.3" height="3.5" width="6" color="#C0C0C0"></a-box>
 
         <!-- Screen -->
         <a-plane position="0 0 0.16"
                  width="5.5"
                  height="3"
-                 material="shader: flat; src: map.png">
+                 material="shader: flat; src: #nelsonImg">
         </a-plane>
 
         <!-- Buttons -->
@@ -58,8 +72,7 @@
           <a-text value="Nelson"
                   align="center"
                   color="white"
-                  position="0 0 0.01">
-          </a-text>
+                  position="0 0 0.01"></a-text>
         </a-plane>
 
         <a-plane id="btn-kaiteriteri"
@@ -71,8 +84,7 @@
           <a-text value="Kaiteriteri"
                   align="center"
                   color="white"
-                  position="0 0 0.01">
-          </a-text>
+                  position="0 0 0.01"></a-text>
         </a-plane>
 
         <a-plane id="btn-abeltasman"
@@ -84,58 +96,74 @@
           <a-text value="Abel Tasman"
                   align="center"
                   color="white"
-                  position="0 0 0.01">
-          </a-text>
+                  position="0 0 0.01"></a-text>
         </a-plane>
 
       </a-entity>
 
-      <a-assets>
-  <video id="kaiteriteriVideo"
-         src="kaiteriteri.mp4"
-         autoplay
-         loop
-         muted
-         playsinline
-         crossorigin="anonymous">
-  </video>
-</a-assets>
-
-      <!-- SKY (will change dynamically) -->
-      <a-sky id="sky" color="#ECECEC"></a-sky>
+      <!-- BACK BUTTON -->
+      <a-plane id="btn-back"
+               class="clickable"
+               position="0 1.5 -2"
+               width="1.5"
+               height="0.5"
+               color="gray"
+               visible="false">
+        <a-text value="Back"
+                align="center"
+                color="white"
+                position="0 0 0.01"></a-text>
+      </a-plane>
 
     </a-scene>
 
-  <script>
-  const tv = document.querySelector('#tv-group');
-  const sky = document.querySelector('#sky');
-  const kaiteriteriVideo = document.querySelector('#kaiteriteriVideo');
+    <!-- LOGIC -->
+    <script>
+      const tv = document.querySelector('#tv-group');
+      const sky = document.querySelector('#sky');
+      const video = document.querySelector('#kaiteriteriVideo');
+      const backBtn = document.querySelector('#btn-back');
 
-  // Nelson (image)
-  document.querySelector('#btn-nelson').addEventListener('click', function () {
-    tv.setAttribute('visible', 'false');
+      function showBackButton() {
+        backBtn.setAttribute('visible', 'true');
+      }
 
-    sky.setAttribute('material', 'src', 'nelson.jpg');
-  });
+      function goBack() {
+        tv.setAttribute('visible', 'true');
+        sky.setAttribute('color', '#ECECEC');
+        sky.removeAttribute('material');
 
-  // Kaiteriteri (VIDEO)
-  document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
-    tv.setAttribute('visible', 'false');
+        video.pause();
+        backBtn.setAttribute('visible', 'false');
+      }
 
-    // play video
-    kaiteriteriVideo.play();
+      backBtn.addEventListener('click', goBack);
 
-    // attach video to sky
-    sky.setAttribute('material', 'src', '#kaiteriteriVideo');
-  });
+      // Nelson
+      document.querySelector('#btn-nelson').addEventListener('click', function () {
+        tv.setAttribute('visible', 'false');
+        sky.setAttribute('material', 'src', '#nelsonImg');
+        showBackButton();
+      });
 
-  // Abel Tasman (image)
-  document.querySelector('#btn-abeltasman').addEventListener('click', function () {
-    tv.setAttribute('visible', 'false');
+      // Kaiteriteri (VIDEO)
+      document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
+        tv.setAttribute('visible', 'false');
 
-    sky.setAttribute('material', 'src', 'abeltasman.jpg');
-  });
-</script>
+        video.play().catch(e => console.log(e));
+
+        sky.setAttribute('material', 'src', '#kaiteriteriVideo');
+
+        showBackButton();
+      });
+
+      // Abel Tasman
+      document.querySelector('#btn-abeltasman').addEventListener('click', function () {
+        tv.setAttribute('visible', 'false');
+        sky.setAttribute('material', 'src', '#abeltasmanImg');
+        showBackButton();
+      });
+    </script>
 
   </body>
 </html>
