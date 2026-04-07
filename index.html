@@ -7,22 +7,23 @@
 
     <a-scene xr-mode-ui="enabled: true">
 
-      <!-- Camera + Cursor -->
+      <!-- Camera (cursor hidden) -->
       <a-entity camera look-controls position="0 1.6 0">
         <a-cursor 
           raycaster="objects: .clickable; far: 10"
+          material="opacity: 0"
           fuse="false">
         </a-cursor>
       </a-entity>
 
-      <!-- VR Controllers -->
+      <!-- Controllers -->
       <a-entity laser-controls="hand: right"
                 raycaster="objects: .clickable"></a-entity>
 
       <a-entity laser-controls="hand: left"
                 raycaster="objects: .clickable"></a-entity>
 
-      <!-- Floating TV -->
+      <!-- TV GROUP -->
       <a-entity id="tv-group"
                 position="0 2 -5"
                 animation="property: position;
@@ -89,26 +90,29 @@
 
       </a-entity>
 
-      <!-- Background -->
-      <a-sky color="#ECECEC"></a-sky>
+      <!-- SKY (will change dynamically) -->
+      <a-sky id="sky" color="#ECECEC"></a-sky>
 
     </a-scene>
 
-    <!-- Interaction Logic -->
+    <!-- Logic -->
     <script>
+      const tv = document.querySelector('#tv-group');
+      const sky = document.querySelector('#sky');
+
       document.querySelector('#btn-nelson').addEventListener('click', function () {
-        console.log("Nelson selected");
-        document.querySelector('a-sky').setAttribute('color', '#88ccff');
+        tv.setAttribute('visible', 'false'); // hide TV
+        sky.setAttribute('src', 'nelson.jpg'); // 360 image
       });
 
       document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
-        console.log("Kaiteriteri selected");
-        document.querySelector('a-sky').setAttribute('color', '#ffcc88');
+        tv.setAttribute('visible', 'false');
+        sky.setAttribute('src', 'kaiteriteri.jpg');
       });
 
       document.querySelector('#btn-abeltasman').addEventListener('click', function () {
-        console.log("Abel Tasman selected");
-        document.querySelector('a-sky').setAttribute('color', '#88ffcc');
+        tv.setAttribute('visible', 'false');
+        sky.setAttribute('src', 'abeltasman.jpg');
       });
     </script>
 
