@@ -11,14 +11,16 @@
       <a-assets>
         <img id="nelsonImg" src="nelson.jpg">
         <img id="abeltasmanImg" src="abeltasman.jpg">
-
+      
         <!-- VIDEO (Netlify hosted) -->
-        <video id="kaiteriteriVideo"
-               src="https://stupendous-raindrop-d356b0.netlify.app/kaiteriteri.mp4"
-               loop
-               muted
-               playsinline>
-        </video>
+  <video id="kaiteriteriVideo"
+       src="https://stupendous-raindrop-d356b0.netlify.app/kaiteriteri.mp4"
+       loop
+       muted
+       playsinline
+       webkit-playsinline
+       crossorigin="anonymous">
+</video>
       </a-assets>
 
       <!-- CAMERA -->
@@ -127,23 +129,28 @@
         showBack();
       });
 
-      // Kaiteriteri (VIDEO)
       document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
-        tv.setAttribute('visible', 'false');
+  tv.setAttribute('visible', 'false');
 
-        video.currentTime = 0;
+  // Reset video
+  video.pause();
+  video.currentTime = 0;
 
-        video.play().then(() => {
-          sky.setAttribute('material', {
-            shader: 'flat',
-            src: '#kaiteriteriVideo'
-          });
-        }).catch(err => {
-          console.log("Video play error:", err);
-        });
+  // Force load + play
+  video.load();
 
-        showBack();
-      });
+  video.play().then(() => {
+    // Apply video to sky
+    sky.setAttribute('material', `shader: flat; src: #kaiteriteriVideo`);
+  }).catch(err => {
+    console.log("Video play error:", err);
+  });
+
+  showBack();
+});
+
+  showBack();
+});
 
       // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
