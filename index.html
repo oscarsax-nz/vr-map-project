@@ -11,26 +11,42 @@
       <a-assets>
         <img id="nelsonImg" src="nelson.jpg">
         <img id="abeltasmanImg" src="abeltasman.jpg">
-      
-        <!-- VIDEO (Netlify hosted) -->
-  <video id="kaiteriteriVideo"
-       src="kaiteriteri.mp4"
-       loop
-       muted
-       playsinline
-       webkit-playsinline
-       crossorigin="anonymous">
-</video>
+
+        <video id="kaiteriteriVideo"
+               src="kaiteriteri.mp4"
+               loop
+               muted
+               playsinline
+               webkit-playsinline
+               crossorigin="anonymous">
+        </video>
       </a-assets>
 
-      <!-- CAMERA -->
+      <!-- CAMERA + UI -->
       <a-entity camera look-controls position="0 1.6 0">
-<a-cursor 
-  raycaster="objects: .clickable"
-  material="opacity: 0">
-</a-cursor>
 
-</a-entity>
+        <!-- Hidden cursor -->
+        <a-cursor 
+          raycaster="objects: .clickable"
+          material="opacity: 0">
+        </a-cursor>
+
+        <!-- Tiny red X (back button) -->
+        <a-plane id="btn-back"
+                 class="clickable"
+                 position="0.5 0.3 -1"
+                 width="0.2"
+                 height="0.2"
+                 color="red"
+                 visible="false">
+          <a-text value="X"
+                  align="center"
+                  color="white"
+                  position="0 0 0.01">
+          </a-text>
+        </a-plane>
+
+      </a-entity>
 
       <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right"
@@ -63,41 +79,39 @@
         </a-plane>
 
         <!-- Buttons -->
+
         <a-plane id="btn-nelson" class="clickable"
                  position="-1.5 -1 0.2"
                  width="1.2" height="0.5" color="red">
-          <a-text value="Nelson" align="center" color="white"></a-text>
+          <a-text value="Nelson"
+                  align="center"
+                  color="white">
+          </a-text>
         </a-plane>
 
         <a-plane id="btn-kaiteriteri" class="clickable"
                  position="0 -1 0.2"
                  width="1.2" height="0.5" color="blue">
-          <a-text value="Kaiteriteri" align="center" color="white"></a-text>
+          <a-text value="Kaiteriteri"
+                  align="center"
+                  color="white">
+          </a-text>
         </a-plane>
 
         <a-plane id="btn-abeltasman" class="clickable"
                  position="1.5 -1 0.2"
                  width="1.2" height="0.5" color="green">
-          <a-text value="Abel Tasman" align="center" color="white"></a-text>
+          <a-text value="Abel Tasman"
+                  align="center"
+                  color="white">
+          </a-text>
         </a-plane>
 
       </a-entity>
 
-      <!-- BACK BUTTON -->
-      <a-plane id="btn-back"
-               class="clickable"
-               position="0 1.5 -2"
-               width="1.5"
-               height="0.5"
-               color="gray"
-               visible="false">
-        <a-text value="Back" align="center" color="white"></a-text>
-      </a-plane>
-
     </a-scene>
 
     <!-- LOGIC -->
-        <!-- LOGIC -->
     <script>
       const tv = document.querySelector('#tv-group');
       const sky = document.querySelector('#sky');
@@ -111,22 +125,27 @@
       function goBack() {
         tv.setAttribute('visible', 'true');
 
+        // Reset sky
         sky.setAttribute('color', '#ECECEC');
         sky.removeAttribute('material');
 
+        // FULL video reset
         video.pause();
+        video.currentTime = 0;
+        video.src = video.src;
 
         backBtn.setAttribute('visible', 'false');
       }
 
       backBtn.addEventListener('click', goBack);
 
-      // Nelson
+      // Nelson (image)
       document.querySelector('#btn-nelson').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
         sky.setAttribute('material', {
-          src: 'kaiteriteri.jpg'
+          shader: 'flat',
+          src: '#nelsonImg'
         });
 
         showBack();
@@ -136,28 +155,26 @@
       document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
-        // Reset video
         video.pause();
         video.currentTime = 0;
-
-        // Reload + play
         video.load();
 
-        video.play().then(() => {
-          sky.setAttribute('material', `shader: flat; src: #kaiteriteriVideo`);
-        }).catch(err => {
-          console.log("Video play error:", err);
-        });
+        video.onloadeddata = () => {
+          video.play();
+
+          sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
+        };
 
         showBack();
       });
 
-      // Abel Tasman
+      // Abel Tasman (image)
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
         sky.setAttribute('material', {
-          src: 'kaiteriteri.jpg'
+          shader: 'flat',
+          src: '#abeltasmanImg'
         });
 
         showBack();
