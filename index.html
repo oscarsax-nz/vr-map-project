@@ -12,9 +12,9 @@
         <img id="nelsonImg" src="nelson.jpg">
         <img id="abeltasmanImg" src="abeltasman.jpg">
 
+        <!-- IMPORTANT: video must be muted for autoplay -->
         <video id="kaiteriteriVideo"
                src="kaiteriteri.mp4"
-               autoplay
                loop
                muted
                playsinline
@@ -24,10 +24,9 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls position="0 1.6 0">
-        <a-cursor 
-          raycaster="objects: .clickable; far: 10"
-          material="opacity: 0"
-          fuse="false">
+        <a-cursor
+          raycaster="objects: .clickable"
+          material="opacity: 0">
         </a-cursor>
       </a-entity>
 
@@ -41,7 +40,7 @@
       <!-- SKY -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
 
-      <!-- TV GROUP -->
+      <!-- TV -->
       <a-entity id="tv-group"
                 position="0 2 -5"
                 animation="property: position;
@@ -62,7 +61,6 @@
         </a-plane>
 
         <!-- Buttons -->
-
         <a-plane id="btn-nelson"
                  class="clickable"
                  position="-1.5 -1 0.2"
@@ -130,10 +128,12 @@
 
       function goBack() {
         tv.setAttribute('visible', 'true');
+
+        sky.setAttribute('material', 'src', null);
         sky.setAttribute('color', '#ECECEC');
-        sky.removeAttribute('material');
 
         video.pause();
+
         backBtn.setAttribute('visible', 'false');
       }
 
@@ -142,7 +142,11 @@
       // Nelson
       document.querySelector('#btn-nelson').addEventListener('click', function () {
         tv.setAttribute('visible', 'false');
-        sky.setAttribute('material', 'src', '#nelsonImg');
+
+        sky.setAttribute('material', {
+          src: '#nelsonImg'
+        });
+
         showBackButton();
       });
 
@@ -150,9 +154,17 @@
       document.querySelector('#btn-kaiteriteri').addEventListener('click', function () {
         tv.setAttribute('visible', 'false');
 
-        video.play().catch(e => console.log(e));
+        // Ensure video is ready
+        video.currentTime = 0;
 
-        sky.setAttribute('material', 'src', '#kaiteriteriVideo');
+        video.play().then(() => {
+          sky.setAttribute('material', {
+            shader: 'flat',
+            src: '#kaiteriteriVideo'
+          });
+        }).catch(err => {
+          console.log("Video play failed:", err);
+        });
 
         showBackButton();
       });
@@ -160,7 +172,11 @@
       // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', function () {
         tv.setAttribute('visible', 'false');
-        sky.setAttribute('material', 'src', '#abeltasmanImg');
+
+        sky.setAttribute('material', {
+          src: '#abeltasmanImg'
+        });
+
         showBackButton();
       });
     </script>
