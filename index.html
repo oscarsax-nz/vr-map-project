@@ -12,9 +12,9 @@
         <img id="nelsonImg" src="nelson.jpg">
         <img id="abeltasmanImg" src="abeltasman.jpg">
 
-        <!-- Replace src with a DIRECT mp4 URL if Git LFS fails -->
+        <!-- VIDEO (Netlify hosted) -->
         <video id="kaiteriteriVideo"
-               src="kaiteriteri.mp4"
+               src="https://stupendous-raindrop-d356b0.netlify.app/kaiteriteri.mp4"
                loop
                muted
                playsinline>
@@ -131,10 +131,8 @@
       document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
-        // Reset video
         video.currentTime = 0;
 
-        // Play video (must be triggered by click)
         video.play().then(() => {
           sky.setAttribute('material', {
             shader: 'flat',
