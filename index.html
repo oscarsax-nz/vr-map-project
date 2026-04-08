@@ -5,23 +5,6 @@
 
   <body>
 
-    <!-- START SCREEN -->
-    <div id="startScreen" style="
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: black;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 999;
-    ">
-      Click to Start Experience
-    </div>
-
     <a-scene cursor="rayOrigin: mouse" xr-mode-ui="enabled: true">
 
       <!-- ASSETS -->
@@ -41,16 +24,18 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
-        <a-cursor raycaster="objects: .clickable" color="black"></a-cursor>
+        
+        <!-- HIDDEN CURSOR (fixes circle) -->
+        <a-cursor 
+          raycaster="objects: .clickable"
+          material="opacity: 0">
+        </a-cursor>
+
       </a-entity>
 
-      <!-- VR / HAND CONTROLLERS -->
+      <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
       <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
-
-      <!-- OPTIONAL: hand tracking (Quest hands if enabled) -->
-      <a-entity hand-controls="hand: left"></a-entity>
-      <a-entity hand-controls="hand: right"></a-entity>
 
       <!-- SKY -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
@@ -74,7 +59,6 @@
         </a-plane>
 
         <!-- Buttons -->
-
         <a-plane id="btn-nelson" class="clickable"
                  position="-1.5 -1 0.2"
                  width="1.2" height="0.5" color="red">
@@ -102,29 +86,21 @@
       const tv = document.querySelector('#tv-group');
       const sky = document.querySelector('#sky');
       const video = document.querySelector('#kaiteriteriVideo');
-      const startScreen = document.getElementById('startScreen');
 
-      function showMenu() {
+      function goBack() {
         tv.setAttribute('visible', 'true');
+
+        // Reset sky
         sky.setAttribute('color', '#ECECEC');
         sky.removeAttribute('material');
 
+        // FULL video reset (this fixes replay bug)
         video.pause();
         video.currentTime = 0;
-        video.src = video.src;
+        video.load();
       }
 
-      function goBack() {
-        showMenu();
-      }
-
-      // START EXPERIENCE
-      startScreen.addEventListener('click', () => {
-        startScreen.style.display = 'none';
-        document.body.requestPointerLock();
-      });
-
-      // KEYBOARD BACK (ESC + BACKSPACE)
+      // ESC + BACKSPACE = go back
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' || e.key === 'Backspace') {
           goBack();
@@ -135,34 +111,30 @@
       document.querySelector('#btn-nelson').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
-        sky.setAttribute('material', {
-          shader: 'flat',
-          src: '#nelsonImg'
-        });
+        sky.setAttribute('material', 'shader: flat; src: #nelsonImg');
       });
 
-      // Kaiteriteri (VIDEO)
+      // Kaiteriteri VIDEO (FIXED)
       document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
+        // FULL RESET
         video.pause();
         video.currentTime = 0;
         video.load();
 
-        video.onloadeddata = () => {
-          video.play();
-          sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
-        };
+        // Attach video FIRST
+        sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
+
+        // THEN play (important order)
+        video.play().catch(e => console.log("Video error:", e));
       });
 
       // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
-        sky.setAttribute('material', {
-          shader: 'flat',
-          src: '#abeltasmanImg'
-        });
+        sky.setAttribute('material', 'shader: flat; src: #abeltasmanImg');
       });
 
     </script>
