@@ -95,6 +95,7 @@
     </a-scene>
 
     <!-- LOGIC -->
+        <!-- LOGIC -->
     <script>
       const tv = document.querySelector('#tv-group');
       const sky = document.querySelector('#sky');
@@ -129,28 +130,25 @@
         showBack();
       });
 
+      // Kaiteriteri (VIDEO)
       document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
-  tv.setAttribute('visible', 'false');
+        tv.setAttribute('visible', 'false');
 
-  // Reset video
-  video.pause();
-  video.currentTime = 0;
+        // Reset video
+        video.pause();
+        video.currentTime = 0;
 
-  // Force load + play
-  video.load();
+        // Reload + play
+        video.load();
 
-  video.play().then(() => {
-    // Apply video to sky
-    sky.setAttribute('material', `shader: flat; src: #kaiteriteriVideo`);
-  }).catch(err => {
-    console.log("Video play error:", err);
-  });
+        video.play().then(() => {
+          sky.setAttribute('material', `shader: flat; src: #kaiteriteriVideo`);
+        }).catch(err => {
+          console.log("Video play error:", err);
+        });
 
-  showBack();
-});
-
-  showBack();
-});
+        showBack();
+      });
 
       // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
