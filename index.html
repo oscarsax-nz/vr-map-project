@@ -25,10 +25,12 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls position="0 1.6 0">
-        <a-cursor raycaster="objects: .clickable"
-                  material="opacity: 0">
-        </a-cursor>
-      </a-entity>
+  <a-cursor
+    raycaster="objects: .clickable"
+    fuse="false"
+    material="opacity: 0.7; color: white">
+  </a-cursor>
+</a-entity>
 
       <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right"
