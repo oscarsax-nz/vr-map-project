@@ -23,7 +23,7 @@
       </a-assets>
 
       <!-- CAMERA + UI -->
-      <a-entity camera look-controls position="0 1.6 0">
+      <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
 
         <!-- Hidden cursor -->
         <a-cursor 
@@ -35,14 +35,14 @@
         <a-plane id="btn-back"
                  class="clickable"
                  position="0.5 0.3 -1"
-                 width="0.2"
-                 height="0.2"
+                 width="0.1"
+                 height="0.1"
                  color="red"
                  visible="false">
           <a-text value="X"
                   align="center"
                   color="white"
-                  position="0 0 0.01">
+                  position="0 0 0.005">
           </a-text>
         </a-plane>
 
@@ -145,7 +145,7 @@
 
         sky.setAttribute('material', {
           shader: 'flat',
-          src: '#nelsonImg'
+          src: 'kaiteriteri.jpg'
         });
 
         showBack();
@@ -174,7 +174,7 @@
 
         sky.setAttribute('material', {
           shader: 'flat',
-          src: '#abeltasmanImg'
+          src: 'kaiteriteri.jpg'
         });
 
         showBack();
