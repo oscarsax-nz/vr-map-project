@@ -5,12 +5,29 @@
 
   <body>
 
-    <a-scene xr-mode-ui="enabled: true">
+    <!-- START SCREEN -->
+    <div id="startScreen" style="
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 999;
+    ">
+      Click to Start Experience
+    </div>
+
+    <a-scene cursor="rayOrigin: mouse" xr-mode-ui="enabled: true">
 
       <!-- ASSETS -->
       <a-assets>
-        <img id="nelsonImg" src="nelson.jpg">
-        <img id="abeltasmanImg" src="abeltasman.jpg">
+        <img id="nelsonImg" src="kaiteriteri.jpg">
+        <img id="abeltasmanImg" src="kaiteriteri.jpg">
 
         <video id="kaiteriteriVideo"
                src="kaiteriteri.mp4"
@@ -22,38 +39,18 @@
         </video>
       </a-assets>
 
-      <!-- CAMERA + UI -->
+      <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
-
-        <!-- Hidden cursor -->
-        <a-cursor 
-          raycaster="objects: .clickable"
-          material="opacity: 0">
-        </a-cursor>
-
-        <!-- Tiny red X (back button) -->
-        <a-plane id="btn-back"
-                 class="clickable"
-                 position="0.5 0.3 -1"
-                 width="0.1"
-                 height="0.1"
-                 color="red"
-                 visible="false">
-          <a-text value="X"
-                  align="center"
-                  color="white"
-                  position="0 0 0.005">
-          </a-text>
-        </a-plane>
-
+        <a-cursor raycaster="objects: .clickable" color="black"></a-cursor>
       </a-entity>
 
-      <!-- CONTROLLERS -->
-      <a-entity laser-controls="hand: right"
-                raycaster="objects: .clickable"></a-entity>
+      <!-- VR / HAND CONTROLLERS -->
+      <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
+      <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
 
-      <a-entity laser-controls="hand: left"
-                raycaster="objects: .clickable"></a-entity>
+      <!-- OPTIONAL: hand tracking (Quest hands if enabled) -->
+      <a-entity hand-controls="hand: left"></a-entity>
+      <a-entity hand-controls="hand: right"></a-entity>
 
       <!-- SKY -->
       <a-sky id="sky" color="#ECECEC"></a-sky>
@@ -68,10 +65,8 @@
                            loop: true;
                            easing: easeInOutSine">
 
-        <!-- Frame -->
         <a-box depth="0.3" height="3.5" width="6" color="#C0C0C0"></a-box>
 
-        <!-- Screen -->
         <a-plane position="0 0 0.16"
                  width="5.5"
                  height="3"
@@ -83,28 +78,19 @@
         <a-plane id="btn-nelson" class="clickable"
                  position="-1.5 -1 0.2"
                  width="1.2" height="0.5" color="red">
-          <a-text value="Nelson"
-                  align="center"
-                  color="white">
-          </a-text>
+          <a-text value="Nelson" align="center" color="white"></a-text>
         </a-plane>
 
         <a-plane id="btn-kaiteriteri" class="clickable"
                  position="0 -1 0.2"
                  width="1.2" height="0.5" color="blue">
-          <a-text value="Kaiteriteri"
-                  align="center"
-                  color="white">
-          </a-text>
+          <a-text value="Kaiteriteri" align="center" color="white"></a-text>
         </a-plane>
 
         <a-plane id="btn-abeltasman" class="clickable"
                  position="1.5 -1 0.2"
                  width="1.2" height="0.5" color="green">
-          <a-text value="Abel Tasman"
-                  align="center"
-                  color="white">
-          </a-text>
+          <a-text value="Abel Tasman" align="center" color="white"></a-text>
         </a-plane>
 
       </a-entity>
@@ -116,39 +102,43 @@
       const tv = document.querySelector('#tv-group');
       const sky = document.querySelector('#sky');
       const video = document.querySelector('#kaiteriteriVideo');
-      const backBtn = document.querySelector('#btn-back');
+      const startScreen = document.getElementById('startScreen');
 
-      function showBack() {
-        backBtn.setAttribute('visible', 'true');
-      }
-
-      function goBack() {
+      function showMenu() {
         tv.setAttribute('visible', 'true');
-
-        // Reset sky
         sky.setAttribute('color', '#ECECEC');
         sky.removeAttribute('material');
 
-        // FULL video reset
         video.pause();
         video.currentTime = 0;
         video.src = video.src;
-
-        backBtn.setAttribute('visible', 'false');
       }
 
-      backBtn.addEventListener('click', goBack);
+      function goBack() {
+        showMenu();
+      }
 
-      // Nelson (image)
+      // START EXPERIENCE
+      startScreen.addEventListener('click', () => {
+        startScreen.style.display = 'none';
+        document.body.requestPointerLock();
+      });
+
+      // KEYBOARD BACK (ESC + BACKSPACE)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key === 'Backspace') {
+          goBack();
+        }
+      });
+
+      // Nelson
       document.querySelector('#btn-nelson').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
         sky.setAttribute('material', {
           shader: 'flat',
-          src: 'kaiteriteri.jpg'
+          src: '#nelsonImg'
         });
-
-        showBack();
       });
 
       // Kaiteriteri (VIDEO)
@@ -161,24 +151,20 @@
 
         video.onloadeddata = () => {
           video.play();
-
           sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
         };
-
-        showBack();
       });
 
-      // Abel Tasman (image)
+      // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
 
         sky.setAttribute('material', {
           shader: 'flat',
-          src: 'kaiteriteri.jpg'
+          src: '#abeltasmanImg'
         });
-
-        showBack();
       });
+
     </script>
 
   </body>
