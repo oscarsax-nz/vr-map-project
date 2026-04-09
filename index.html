@@ -25,15 +25,16 @@
       <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
         <!-- HIDDEN CURSOR -->
-        <a-cursor 
-          raycaster="objects: .clickable"
+        <a-cursor raycaster="objects: .clickable; far: 100; recursive: false"
           material="opacity: 0">
-        </a-cursor>
+</a-cursor>
+
       </a-entity>
 
       <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
-      <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
+<a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
+
 
       <!-- Default neutral sky -->
 <a-sky id="sky-default"
@@ -56,6 +57,7 @@
        visible="false"
        material="shader: flat; side: back; src: #kaiteriteriVideo">
 </a-sky>
+
 
       <!-- TV -->
       <a-entity id="tv-group"
