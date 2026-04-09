@@ -24,13 +24,10 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
-        
-        <!-- HIDDEN CURSOR (fixes circle) -->
         <a-cursor 
           raycaster="objects: .clickable"
           material="opacity: 0">
         </a-cursor>
-
       </a-entity>
 
       <!-- CONTROLLERS -->
@@ -94,7 +91,7 @@
         sky.setAttribute('color', '#ECECEC');
         sky.removeAttribute('material');
 
-        // FULL video reset (this fixes replay bug)
+        // FULL video reset
         video.pause();
         video.currentTime = 0;
         video.load();
@@ -110,7 +107,6 @@
       // Nelson
       document.querySelector('#btn-nelson').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
-
         sky.setAttribute('material', 'shader: flat; src: #nelsonImg');
       });
 
@@ -123,17 +119,23 @@
         video.currentTime = 0;
         video.load();
 
-        // Attach video FIRST
+        // Set video material
         sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
 
-        // THEN play (important order)
+        // Force A‑Frame to rebuild the WebGL texture
+        sky.addEventListener('materialtextureloaded', () => {
+          if (sky.components.material && sky.components.material.material.map) {
+            sky.components.material.material.map.needsUpdate = true;
+          }
+        }, { once: true });
+
+        // Play video
         video.play().catch(e => console.log("Video error:", e));
       });
 
       // Abel Tasman
       document.querySelector('#btn-abeltasman').addEventListener('click', () => {
         tv.setAttribute('visible', 'false');
-
         sky.setAttribute('material', 'shader: flat; src: #abeltasmanImg');
       });
 
