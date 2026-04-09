@@ -24,40 +24,35 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
-        <!-- HIDDEN CURSOR -->
-        <a-cursor raycaster="objects: .clickable; far: 100; recursive: false"
+        <a-cursor 
+          raycaster="objects: .clickable; far: 100"
           material="opacity: 0">
-</a-cursor>
-
+        </a-cursor>
       </a-entity>
 
       <!-- CONTROLLERS -->
       <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
-<a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
+      <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
 
+      <!-- SKIES (non-interactive) -->
+      <a-sky id="sky-default"
+             class="noclick"
+             color="#ECECEC"
+             visible="true"
+             material="side: back">
+      </a-sky>
 
-      <!-- Default neutral sky -->
-<a-sky id="sky-default"
-       class="noclick"
-       color="#ECECEC"
-       visible="true"
-       material="side: back">
-</a-sky>
+      <a-sky id="sky-image"
+             class="noclick"
+             visible="false"
+             material="shader: flat; side: back; src: #nelsonImg">
+      </a-sky>
 
-<!-- Image sky -->
-<a-sky id="sky-image"
-       class="noclick"
-       visible="false"
-       material="shader: flat; side: back; src: #nelsonImg">
-</a-sky>
-
-<!-- Video sky -->
-<a-sky id="sky-video"
-       class="noclick"
-       visible="false"
-       material="shader: flat; side: back; src: #kaiteriteriVideo">
-</a-sky>
-
+      <a-sky id="sky-video"
+             class="noclick"
+             visible="false"
+             material="shader: flat; side: back; src: #kaiteriteriVideo">
+      </a-sky>
 
       <!-- TV -->
       <a-entity id="tv-group"
@@ -108,4 +103,36 @@
       const skyImage   = document.querySelector('#sky-image');
       const skyVideo   = document.querySelector('#sky-video');
 
-      const video = document.querySelector('#
+      const video = document.querySelector('#kaiteriteriVideo');
+
+      function showOnlySky(which) {
+        skyDefault.setAttribute('visible', which === 'default');
+        skyImage.setAttribute('visible',   which === 'image');
+        skyVideo.setAttribute('visible',   which === 'video');
+      }
+
+      function goBack() {
+        tv.setAttribute('visible', 'true');
+        showOnlySky('default');
+
+        video.pause();
+        video.currentTime = 0;
+      }
+
+      // Keyboard support
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'Delete') {
+          goBack();
+        }
+      });
+
+      // Nelson
+      document.querySelector('#btn-nelson').addEventListener('click', () => {
+        tv.setAttribute('visible', 'false');
+        skyImage.setAttribute('material', 'shader: flat; side: back; src: #nelsonImg');
+        showOnlySky('image');
+      });
+
+      // Kaiteriteri VIDEO
+      document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
+        tv.setAttribute
