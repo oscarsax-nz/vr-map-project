@@ -24,6 +24,7 @@
 
       <!-- CAMERA -->
       <a-entity camera look-controls="pointerLockEnabled: true" position="0 1.6 0">
+        <!-- HIDDEN CURSOR -->
         <a-cursor 
           raycaster="objects: .clickable"
           material="opacity: 0">
@@ -34,8 +35,21 @@
       <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
       <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
 
-      <!-- SKY -->
-      <a-sky id="sky" color="#ECECEC"></a-sky>
+      <!-- SKIES -->
+      <!-- Default neutral sky -->
+      <a-sky id="sky-default" color="#ECECEC" visible="true"></a-sky>
+
+      <!-- Image sky (we'll swap src between Nelson / Abel Tasman) -->
+      <a-sky id="sky-image"
+             visible="false"
+             material="shader: flat; side: back; src: #nelsonImg">
+      </a-sky>
+
+      <!-- Video sky -->
+      <a-sky id="sky-video"
+             visible="false"
+             material="shader: flat; side: back; src: #kaiteriteriVideo">
+      </a-sky>
 
       <!-- TV -->
       <a-entity id="tv-group"
@@ -81,65 +95,9 @@
     <!-- LOGIC -->
     <script>
       const tv = document.querySelector('#tv-group');
-      const sky = document.querySelector('#sky');
-      const video = document.querySelector('#kaiteriteriVideo');
 
-      function goBack() {
-        tv.setAttribute('visible', 'true');
+      const skyDefault = document.querySelector('#sky-default');
+      const skyImage   = document.querySelector('#sky-image');
+      const skyVideo   = document.querySelector('#sky-video');
 
-        // Reset sky
-        sky.setAttribute('color', '#ECECEC');
-        sky.removeAttribute('material');
-
-        // FULL video reset
-        video.pause();
-        video.currentTime = 0;
-        video.load();
-      }
-
-      // ESC + BACKSPACE = go back
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' || e.key === 'Backspace') {
-          goBack();
-        }
-      });
-
-      // Nelson
-      document.querySelector('#btn-nelson').addEventListener('click', () => {
-        tv.setAttribute('visible', 'false');
-        sky.setAttribute('material', 'shader: flat; src: #nelsonImg');
-      });
-
-      // Kaiteriteri VIDEO (FIXED)
-      document.querySelector('#btn-kaiteriteri').addEventListener('click', () => {
-        tv.setAttribute('visible', 'false');
-
-        // FULL RESET
-        video.pause();
-        video.currentTime = 0;
-        video.load();
-
-        // Set video material
-        sky.setAttribute('material', 'shader: flat; src: #kaiteriteriVideo');
-
-        // Force A‑Frame to rebuild the WebGL texture
-        sky.addEventListener('materialtextureloaded', () => {
-          if (sky.components.material && sky.components.material.material.map) {
-            sky.components.material.material.map.needsUpdate = true;
-          }
-        }, { once: true });
-
-        // Play video
-        video.play().catch(e => console.log("Video error:", e));
-      });
-
-      // Abel Tasman
-      document.querySelector('#btn-abeltasman').addEventListener('click', () => {
-        tv.setAttribute('visible', 'false');
-        sky.setAttribute('material', 'shader: flat; src: #abeltasmanImg');
-      });
-
-    </script>
-
-  </body>
-</html>
+      const video = document.querySelector('#
