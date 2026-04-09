@@ -35,21 +35,27 @@
       <a-entity laser-controls="hand: right" raycaster="objects: .clickable"></a-entity>
       <a-entity laser-controls="hand: left" raycaster="objects: .clickable"></a-entity>
 
-      <!-- SKIES -->
       <!-- Default neutral sky -->
-      <a-sky id="sky-default" color="#ECECEC" visible="true"></a-sky>
+<a-sky id="sky-default"
+       class="noclick"
+       color="#ECECEC"
+       visible="true"
+       material="side: back">
+</a-sky>
 
-      <!-- Image sky (we'll swap src between Nelson / Abel Tasman) -->
-      <a-sky id="sky-image"
-             visible="false"
-             material="shader: flat; side: back; src: #nelsonImg">
-      </a-sky>
+<!-- Image sky -->
+<a-sky id="sky-image"
+       class="noclick"
+       visible="false"
+       material="shader: flat; side: back; src: #nelsonImg">
+</a-sky>
 
-      <!-- Video sky -->
-      <a-sky id="sky-video"
-             visible="false"
-             material="shader: flat; side: back; src: #kaiteriteriVideo">
-      </a-sky>
+<!-- Video sky -->
+<a-sky id="sky-video"
+       class="noclick"
+       visible="false"
+       material="shader: flat; side: back; src: #kaiteriteriVideo">
+</a-sky>
 
       <!-- TV -->
       <a-entity id="tv-group"
